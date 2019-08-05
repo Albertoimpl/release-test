@@ -16,15 +16,15 @@ resources:
 - name: github-pre-release
   type: github-release
   source:
-    owner: spring-gradle-plugins
-    repository: dependency-management-plugin
+    owner: test
+    repository: releasetest
     access_token: ((github-release-notes-access-token))
     pre_release: true
 - name: github-release
   type: github-release
   source:
-    owner: spring-gradle-plugins
-    repository: dependency-management-plugin
+    owner: test
+    repository: releasetest
     access_token: ((github-release-notes-access-token))
     pre_release: false
 - name: ci-images-git-repo
@@ -77,7 +77,7 @@ jobs:
       disable_checksum_uploads: true
       artifact_set:
       - include:
-        - "/**/dependency-management-plugin-*-docs.zip"
+        - "/**/releasetest-*-docs.zip"
         properties:
           "zip.type": "docs"
           "zip.deployed": "false"
