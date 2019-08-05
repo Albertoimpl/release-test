@@ -1,9 +1,22 @@
+
+buildscript {
+    repositories {
+        maven { url "https://repo.spring.io/plugins-release" }
+    }
+    dependencies {
+        classpath("io.spring.gradle:propdeps-plugin:0.0.10.RELEASE")
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'java'
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "propdeps"
+apply plugin: "propdeps-idea"
+apply plugin: "propdeps-eclipse"
 
 group = 'io.pivotal.spring.cloud.scstest'
 version = '0.0.1-SNAPSHOT'
@@ -16,4 +29,8 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+configure(allprojects) {
+    apply from: "${rootProject.projectDir}/publish-maven.gradle"
 }
