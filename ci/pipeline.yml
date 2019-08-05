@@ -16,14 +16,14 @@ resources:
 - name: github-pre-release
   type: github-release
   source:
-    owner: test
+    owner: albertoimpl
     repository: releasetest
     access_token: ((github-release-notes-access-token))
     pre_release: true
 - name: github-release
   type: github-release
   source:
-    owner: test
+    owner: albertoimpl
     repository: releasetest
     access_token: ((github-release-notes-access-token))
     pre_release: false
@@ -70,7 +70,7 @@ jobs:
       file: git-repo/ci/tasks/build-project.yml
   - put: artifactory-repo
     params: &artifactory-params
-      repo: plugins-snapshot-local
+      repo: libs-snapshot-local
       folder: distribution-repository
       build_uri: "https://ci.spring.io/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
       build_number: "${BUILD_PIPELINE_NAME}-${BUILD_JOB_NAME}-${BUILD_NAME}"
