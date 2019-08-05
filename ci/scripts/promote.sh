@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eoux
 
 source $(dirname $0)/common.sh
 

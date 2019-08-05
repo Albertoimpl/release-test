@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eoux
+set -e
 
 source $(dirname $0)/common.sh
 repository=$(pwd)/distribution-repository
