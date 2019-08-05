@@ -19,7 +19,6 @@ apply plugin: "propdeps-idea"
 apply plugin: "propdeps-eclipse"
 
 group = 'io.pivotal.spring.cloud.scstest'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
