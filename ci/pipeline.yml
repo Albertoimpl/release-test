@@ -13,13 +13,6 @@ resources:
     password: ((github-password))
     branch: ((branch))
     ignore_paths: ["ci/images/*"]
-- name: github-pre-release
-  type: github-release
-  source:
-    owner: albertoimpl
-    repository: releasetest
-    access_token: ((github-release-notes-access-token))
-    pre_release: true
 - name: github-release
   type: github-release
   source:
