@@ -45,7 +45,7 @@ if [[ $RELEASE_TYPE = "RELEASE" ]]; then
 		-d "{\"sourceRepos\": [\"libs-release-local\"], \"targetRepo\" : \"${DISTRIBUTION_REPO}\", \"async\":\"true\"}" \
 		-f \
 		-X \
-		POST "${ARTIFACTORY_SERVER}/api/build/distribute/${buildName}/${buildNumber}" > /dev/null || { echo "Failed to distribute" >&2; exit 1; }
+		POST "${ARTIFACTORY_SERVER}/api/build/distribute/${buildName}/${buildNumber}" > /dev/null
 
 	echo "Waiting for artifacts to be published"
 	ARTIFACTS_PUBLISHED=false
