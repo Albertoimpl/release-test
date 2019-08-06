@@ -7,7 +7,7 @@ buildName=$( cat artifactory-repo/build-info.json | jq -r '.buildInfo.name' )
 buildNumber=$( cat artifactory-repo/build-info.json | jq -r '.buildInfo.number' )
 packageName="io.pivotal.spring.cloud.scstest.releasetest"
 version=$( cat artifactory-repo/build-info.json | jq -r '.buildInfo.modules[0].id' | sed 's/.*:.*:\(.*\)/\1/' )
-DISTRIBUTION_REPO="spring-distribution"
+DISTRIBUTION_REPO="spring-cloud-app-broker"
 
 if [[ $RELEASE_TYPE = "M" ]]; then
 	targetRepo="libs-milestone-local"
@@ -34,7 +34,7 @@ curl \
 
 if [[ $RELEASE_TYPE = "RELEASE" ]]; then
 
-  echo "Promoting ${buildName}/${buildNumber} to spring-distribution"
+  echo "Promoting ${buildName}/${buildNumber} to ${DISTRIBUTION_REPO}"
 
 	curl \
 		-s \
