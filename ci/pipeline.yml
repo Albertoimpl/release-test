@@ -13,13 +13,6 @@ resources:
     password: ((github-password))
     branch: ((branch))
     ignore_paths: ["ci/images/*"]
-- name: github-release
-  type: github-release
-  source:
-    owner: albertoimpl
-    repository: releasetest
-    access_token: ((github-release-notes-access-token))
-    pre_release: false
 - name: ci-images-git-repo
   type: git
   source:
@@ -189,17 +182,6 @@ jobs:
       BINTRAY_REPO: ((bintray-repo))
       BINTRAY_USERNAME: ((bintray-username))
       BINTRAY_API_KEY: ((bintray-api-key))
-  - task: generate-release-notes
-    file: git-repo/ci/tasks/generate-release-notes.yml
-    params:
-      RELEASE_TYPE: RELEASE
-      GITHUB_USERNAME: ((github-username))
-      GITHUB_TOKEN: ((github-release-notes-access-token))
-  - put: github-release
-    params:
-      name: generated-release-notes/tag
-      tag: generated-release-notes/tag
-      body: generated-release-notes/release-notes.md
 - name: sync-to-maven-central
   serial: true
   plan:
