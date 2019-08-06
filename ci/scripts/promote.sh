@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eoux
+set -e
 
 source $(dirname $0)/common.sh
 
@@ -30,7 +30,7 @@ curl \
 	-d "{\"status\": \"staged\", \"sourceRepo\": \"libs-staging-local\", \"targetRepo\": \"${targetRepo}\"}"  \
 	-f \
 	-X \
-	POST "${ARTIFACTORY_SERVER}/api/build/promote/${buildName}/${buildNumber}" > /dev/null
+	POST "${ARTIFACTORY_SERVER}/api/build/promote/${buildName}/${buildNumber}" > /dev/null || { echo "Failed to promote" >&2; exit 1; }
 
 if [[ $RELEASE_TYPE = "RELEASE" ]]; then
 
@@ -45,7 +45,7 @@ if [[ $RELEASE_TYPE = "RELEASE" ]]; then
 		-d "{\"sourceRepos\": [\"libs-release-local\"], \"targetRepo\" : \"${DISTRIBUTION_REPO}\", \"async\":\"true\"}" \
 		-f \
 		-X \
-		POST "${ARTIFACTORY_SERVER}/api/build/distribute/${buildName}/${buildNumber}" > /dev/null
+		POST "${ARTIFACTORY_SERVER}/api/build/distribute/${buildName}/${buildNumber}" > /dev/null || { echo "Failed to promote" >&2; exit 1; }
 
 	echo "Waiting for artifacts to be published"
 	ARTIFACTS_PUBLISHED=false
