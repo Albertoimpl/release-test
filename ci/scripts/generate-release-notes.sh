@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eoux
 
 version=$(cat version/version)
 milestone=${version}
