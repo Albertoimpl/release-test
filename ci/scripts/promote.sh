@@ -7,7 +7,7 @@ buildName=$( cat artifactory-repo/build-info.json | jq -r '.buildInfo.name' )
 buildNumber=$( cat artifactory-repo/build-info.json | jq -r '.buildInfo.number' )
 packageName="io.pivotal.spring.cloud.scstest.releasetest"
 version=$( cat artifactory-repo/build-info.json | jq -r '.buildInfo.modules[0].id' | sed 's/.*:.*:\(.*\)/\1/' )
-
+DISTRIBUTION_REPO="spring-distribution"
 
 if [[ $RELEASE_TYPE = "M" ]]; then
 	targetRepo="libs-milestone-local"
@@ -25,21 +25,24 @@ curl \
 	-s \
 	--connect-timeout 240 \
 	--max-time 900 \
-	-u ${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD} \
+	-u "${ARTIFACTORY_USERNAME}":"${ARTIFACTORY_PASSWORD}" \
 	-H "Content-type:application/json" \
 	-d "{\"status\": \"staged\", \"sourceRepo\": \"libs-staging-local\", \"targetRepo\": \"${targetRepo}\"}"  \
 	-f \
 	-X \
-	POST "${ARTIFACTORY_SERVER}/api/build/promote/${buildName}/${buildNumber}" > /dev/null || { echo "Failed to promote" >&2; exit 1; }
+	POST "${ARTIFACTORY_SERVER}/api/build/promote/${buildName}/${buildNumber}" > /dev/null
 
 if [[ $RELEASE_TYPE = "RELEASE" ]]; then
+
+  echo "Promoting ${buildName}/${buildNumber} to spring-distribution"
+
 	curl \
 		-s \
 		--connect-timeout 240 \
 		--max-time 2700 \
-		-u ${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD} \
+		-u "${ARTIFACTORY_USERNAME}":"${ARTIFACTORY_PASSWORD}" \
 		-H "Content-type:application/json" \
-		-d "{\"sourceRepos\": [\"libs-release-local\"], \"targetRepo\" : \"spring-distribution\", \"async\":\"true\"}" \
+		-d "{\"sourceRepos\": [\"libs-release-local\"], \"targetRepo\" : \"${DISTRIBUTION_REPO}\", \"async\":\"true\"}" \
 		-f \
 		-X \
 		POST "${ARTIFACTORY_SERVER}/api/build/distribute/${buildName}/${buildNumber}" > /dev/null || { echo "Failed to distribute" >&2; exit 1; }
