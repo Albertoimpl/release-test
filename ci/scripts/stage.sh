@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-source $(dirname $0)/common.sh
+# shellcheck source=scripts/common.sh
+source "$(dirname "$0")/common.sh"
 repository=$(pwd)/distribution-repository
 
 pushd git-repo > /dev/null
