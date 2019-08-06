@@ -5,9 +5,8 @@ source $(dirname $0)/common.sh
 
 buildName=$( cat artifactory-repo/build-info.json | jq -r '.buildInfo.name' )
 buildNumber=$( cat artifactory-repo/build-info.json | jq -r '.buildInfo.number' )
-packageName="io/pivotal/spring/cloud/scstest/releasetest"
-groupId=$( cat artifactory-repo/build-info.json | jq -r '.buildInfo.modules[0].id' | sed 's/\(.*\):.*:.*/\1/' )
 version=$( cat artifactory-repo/build-info.json | jq -r '.buildInfo.modules[0].id' | sed 's/.*:.*:\(.*\)/\1/' )
+packageName="spring-cloud-app-broker"
 DISTRIBUTION_REPO="spring-cloud-app-broker"
 
 if [[ $RELEASE_TYPE = "M" ]]; then
@@ -56,7 +55,7 @@ if [[ $RELEASE_TYPE = "RELEASE" ]]; then
 	artifacts_published=false
 	retry_counter=0
 	while [ $artifacts_published == "false" ] && [ $retry_counter -lt $WAIT_ATTEMPTS ]; do
-		result=$( curl -s -f -u "${BINTRAY_USERNAME}":"${BINTRAY_API_KEY}" https://api.bintray.com/packages/"${BINTRAY_SUBJECT}"/"${BINTRAY_REPO}"/"${groupId}" )
+		result=$( curl -s -f -u "${BINTRAY_USERNAME}":"${BINTRAY_API_KEY}" https://api.bintray.com/packages/"${BINTRAY_SUBJECT}"/"${BINTRAY_REPO}"/"${packageName}" )
 		if [ $? -eq 0 ]; then
 			versions=$( echo "$result" | jq -r '.versions' )
 			exists=$( echo "$versions" | grep "$version" -o || true )
