@@ -3,8 +3,8 @@ set -eoux
 
 version=$(cat version/version)
 milestone=${version}
-organization="albertoimpl"
-repository="releasetest"
+organization="Albertoimpl"
+repository="release-test"
 
 java -jar /github-release-notes-generator.jar \
   --releasenotes.github.username="${GITHUB_USERNAME}" \
