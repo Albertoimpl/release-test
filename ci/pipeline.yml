@@ -167,7 +167,7 @@ jobs:
     trigger: false
   - get: artifactory-repo
     trigger: false
-    passed: [promote-release]
+    passed: [stage-release]
     params:
       save_build_info: true
   - task: promote
