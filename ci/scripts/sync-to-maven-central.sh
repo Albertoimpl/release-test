@@ -10,7 +10,7 @@ echo "Syncing ${buildName}/${buildNumber} to Maven Central"
 			-s \
 			--connect-timeout 240 \
 			--max-time 2700 \
-			-u ${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} \
+			-u "${BINTRAY_USERNAME}":"${BINTRAY_PASSWORD}" \
 			-H "Content-Type: application/json" -d "{\"username\": \"${SONATYPE_USER_TOKEN}\", \"password\": \"${SONATYPE_PASSWORD_TOKEN}\"}" \
 			-f \
 			-X \

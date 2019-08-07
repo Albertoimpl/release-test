@@ -1,4 +1,4 @@
-package io.pivotal.spring.cloud.scstest.releasetest;
+package com.albertoimpl.test.scstest.releasetest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
