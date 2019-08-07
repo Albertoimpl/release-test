@@ -195,9 +195,9 @@ jobs:
       passed: [promote-release]
       params:
         save_build_info: true
-    - task: promote
+    - task: distribute
       image: release-ci-image
-      file: git-repo/ci/tasks/promote.yml
+      file: git-repo/ci/tasks/distribute.yml
       params:
         ARTIFACTORY_SERVER: ((artifactory-server))
         ARTIFACTORY_USERNAME: ((artifactory-username))
