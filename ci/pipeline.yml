@@ -167,7 +167,7 @@ jobs:
     trigger: false
   - get: artifactory-repo
     trigger: false
-    passed: [stage-release]
+    passed: [promote-release]
     params:
       save_build_info: true
   - task: promote
@@ -184,6 +184,30 @@ jobs:
       BINTRAY_API_KEY: ((bintray-api-key))
       BINTRAY_PACKAGE: ((bintray-package))
       BINTRAY_DISTRIBUTION_REPO: ((bintray-distribution-repo))
+- name: distribute-release
+  serial: true
+  plan:
+    - get: release-ci-image
+    - get: git-repo
+      trigger: false
+    - get: artifactory-repo
+      trigger: false
+      passed: [promote-release]
+      params:
+        save_build_info: true
+    - task: promote
+      image: release-ci-image
+      file: git-repo/ci/tasks/promote.yml
+      params:
+        ARTIFACTORY_SERVER: ((artifactory-server))
+        ARTIFACTORY_USERNAME: ((artifactory-username))
+        ARTIFACTORY_PASSWORD: ((artifactory-password))
+        BINTRAY_SUBJECT: ((bintray-subject))
+        BINTRAY_REPO: ((bintray-repo))
+        BINTRAY_USERNAME: ((bintray-username))
+        BINTRAY_API_KEY: ((bintray-api-key))
+        BINTRAY_PACKAGE: ((bintray-package))
+        BINTRAY_DISTRIBUTION_REPO: ((bintray-distribution-repo))
 - name: sync-to-maven-central
   serial: true
   plan:
@@ -192,7 +216,7 @@ jobs:
     trigger: false
   - get: artifactory-repo
     trigger: false
-    passed: [promote-release]
+    passed: [distribute-release]
     params:
       save_build_info: true
   - task: sync-to-maven-central
@@ -210,6 +234,6 @@ groups:
 - name: "Build"
   jobs: ["build"]
 - name: "Release"
-  jobs: ["stage-milestone", "stage-rc", "stage-release", "promote-milestone", "promote-rc", "promote-release", "sync-to-maven-central"]
+  jobs: ["stage-milestone", "stage-rc", "stage-release", "promote-milestone", "promote-rc", "promote-release", "distribute-release", "sync-to-maven-central"]
 - name: "CI Images"
   jobs: ["build-release-ci-images"]
