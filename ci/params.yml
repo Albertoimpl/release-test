@@ -1,0 +1,6 @@
+bintray-distribution-repo: test-spring-distributions
+bintray-package: com.albertoimpl.test.scstest
+bintray-repo: test
+bintray-subject: spring
+build-name: releasetest-build
+branch: master

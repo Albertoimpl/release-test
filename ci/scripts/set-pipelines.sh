@@ -4,7 +4,7 @@ set -euo pipefail
 
 set_pipeline() {
   echo "Setting release pipeline..."
-  fly -t scs set-pipeline -p release-test -c pipeline.yml -l config.yml
+  fly -t scs set-pipeline -p release-test -c pipeline.yml -l config.yml -l params.yml
 }
 
 main() {
