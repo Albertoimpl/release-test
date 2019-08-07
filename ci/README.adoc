@@ -1,0 +1,76 @@
+== Release pipeline
+
+A release pipeline inspired by the one created by the Spring boot team https://github.com/spring-projects/spring-boot/blob/master/ci/
+
+It is composed by three different groups to completely reproduce the steps followed in bamboo.
+
+- The first group is a basic build so that we can always be sure which build we will be getting then releasing.
+- The second group are the releases
+- The last group is the CI image used by the different tasks and the source can be found here: `ci/images/release-ci-image/Dockerfile`
+
+=== Releases
+
+The original pipeline was decomposed into different jobs so that we could recover from each of them manually
+
+
+=== Fly
+
+The pipeline can be run using the following script:
+
+[source]
+----
+$ ./ci/scripts/set-pipeline.sh
+----
+
+A `config.yml` file is required to be created with the following credentials:
+
+[source]
+----
+artifactory-password:
+artifactory-server:
+artifactory-username:
+bintray-api-key:
+bintray-username:
+docker-hub-organization:
+docker-hub-password:
+docker-hub-username:
+github-password:
+github-release-notes-access-token:
+github-repo:
+github-username:
+sonatype-user-token:
+sonatype-user-token-password:
+----
+
+=== Release commands
+
+If you don't want to click, you can trigger each job using the CLI:
+
+To release a milestone:
+
+[source]
+----
+$ fly -t scs trigger-job -j release-test/stage-milestone
+$ fly -t scs trigger-job -j release-test/promote-milestone
+----
+
+To release an RC:
+
+[source]
+----
+$ fly -t scs trigger-job -j release-test/stage-rc
+$ fly -t scs trigger-job -j release-test/promote-rc
+----
+
+To release a GA:
+
+[source]
+----
+$ fly -t scs trigger-job -j release-test/stage-release
+$ fly -t scs trigger-job -j release-test/promote-release
+$ fly -t scs trigger-job -j release-test/distribute-release
+$ fly -t scs trigger-job -j release-test/sync-to-maven-central
+----
+
+
+
