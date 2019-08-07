@@ -24,7 +24,7 @@ curl \
   exit 1
 }
 
-echo "Waiting for artifacts to be published"
+echo "Waiting for artifacts to be distributed"
 
 WAIT_TIME=20
 WAIT_ATTEMPTS=120
@@ -44,7 +44,7 @@ while [ $artifacts_published == "false" ] && [ $retry_counter -lt $WAIT_ATTEMPTS
   sleep $WAIT_TIME
 done
 if [[ $artifacts_published == "false" ]]; then
-  echo "Failed to publish"
+  echo "Failed to ditribute"
   exit 1
 fi
 
